@@ -88,26 +88,35 @@
             for(var i=0;i<this.listeners.length;i++){
                 this.listeners[i].destroy();
             }
+        },
+
+        _touchStart: function(e){
+          if(!this.topActivated && e.touches.length==1){
+            this.activeHeight = this.el.top.getBoundingClientRect().height;
+          }
+        },
+
+        _transitionEnd: function(e){
+          if (this.topActivated) {
+            if (e.target == this.el.root) {
+              $(this.el.root).height(this.activeHeight - this.barHeight);
+            }
+          } else {
+            $(this.el.top).removeClass('top-animating');
+          }
         }
-    }, 
+
+    },
     
     // Touch Handling for Android Devices
     (navigator.userAgent.search('Android')!=-1) ? {
         handleEvent: function(e) {
             switch (e.type) {
             case 'webkitTransitionEnd':
-                if (this.topActivated) {
-                    if (e.target == this.el.root) {
-                        $(this.el.root).height(this.activeHeight - this.barHeight);
-                    }
-                } else {
-                    $(this.el.top).removeClass('top-animating');
-                }
+                this._transitionEnd(e);
                 break;
             case 'touchstart':
-                if(!this.topActivated && e.touches.length==1){
-                    this.activeHeight = this.el.top.getBoundingClientRect().height;
-                }
+                this._touchStart(e);
                 break;
             case 'touchmove':
                 e.preventDefault();
@@ -165,19 +174,20 @@
         handleEvent: function(e) {
             switch (e.type) {
             case 'webkitTransitionEnd':
-                e.stopPropagation();
-                if (this.topActivated && e.target == this.el.root) {
-                    $(this.el.root).height(this.activeHeight - this.barHeight);
-                }
+                //e.stopPropagation();
+                this._transitionEnd(e);
                 break;
+
             case 'touchstart':
-                if(!this.topActivated && e.touches.length==1){
-                    this.activeHeight = this.el.top.getBoundingClientRect().height;
-                }
+                this._touchStart(e);
                 break;
+
             case 'touchmove':
-                e.stopPropagation();
+                //e.preventDefault();
                 if (!this.topActivated && !!this.el.warper.scrollTop) {
+
+                    // trigger activating when the scroll has been pulled
+                    // beyond the bar height
                     if (-this.el.warper.scrollTop > this.barHeight) {
                         this.readyToActivate = true;
                         $(this.el.top).addClass('top-activating');
@@ -185,6 +195,7 @@
                         this.readyToActivate = false;
                         $(this.el.top).removeClass('top-activating');
                     }
+
                 }
                 break;
             case 'touchend':

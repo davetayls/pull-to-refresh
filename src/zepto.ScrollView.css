@@ -33,11 +33,16 @@
     overflow: visible;
 }
 
-.zui-scroll-view-top-loading{
+.zui-scroll-view-top-loading {
     position: absolute;
     width: 100%;
     z-index: 2;
     -webkit-user-select:none;
+    opacity: 0;
+}
+
+.top-activated .zui-scroll-view-top-loading {
+  opacity: 1;
 }
 
 .zui-scroll-view-pull {
@@ -65,14 +70,18 @@
 .top-activated .zui-scroll-view-pull {
   opacity: 0.3;
 }
-.zui-scroll-view-top-loading{
+
+.zui-scroll-view-top-loading {
   height: 60px;/*height:*/
   background: #fff;
   text-align: center;
   line-height: 60px;/*height:*/
   box-shadow: 1px 0 5px #666;
-  -webkit-transition: -webkit-transform .5s cubic-bezier(0.33, 0.66, 0.66,1);
+  transition: opacity .3s ease, -webkit-transform .5s cubic-bezier(0.33, 0.66, 0.66,1);
+  -ms-transform: translate3d(0,-60px,0);/*height:*/
+  -moz-transform: translate3d(0,-60px,0);/*height:*/
   -webkit-transform: translate3d(0,-60px,0);/*height:*/
+  transform: translate3d(0,-60px,0);/*height:*/
 }
 .top-activated .zui-scroll-view-top-loading{
   -webkit-transform: translate3d(0,0,0);
