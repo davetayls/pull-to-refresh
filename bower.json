@@ -1,0 +1,24 @@
+{
+  "name": "pull-to-refresh",
+  "version": "0.0.0",
+  "homepage": "https://github.com/davetayls/pull-to-refresh",
+  "authors": [
+    "hyspace <http://hyspace.cc>",
+    "davetayls <http://davetayls.me>"
+  ],
+  "description": "a scrollview with pull-to-refresh function using -webkit-overflow-scrolling: touch",
+  "main": "src/zepto.ScrollView.js",
+  "keywords": [
+    "jquery",
+    "zepto",
+    "pull-to-refresh"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
